@@ -14,19 +14,17 @@ export default function Home() {
           priority
         />
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <Typography>
-            <li className="mb-2 tracking-[-.01em]">
+          <li className="mb-2 tracking-[-.01em]">
+            <Typography>
               Get started by editing
               <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
                 src/app/page.tsx
               </code>
-            </li>{" "}
-          </Typography>
-          <Typography>
-            <li className="tracking-[-.01em]">
-              Save and see your changes instantly.
-            </li>
-          </Typography>
+            </Typography>
+          </li>
+          <li>
+            <Typography>Save and see your changes instantly.</Typography>
+          </li>
 
           <Button variant="text">
             <p>あいうえお</p>
