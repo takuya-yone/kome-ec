@@ -1,5 +1,5 @@
 import Image from "next/image";
-import  Button  from "@mui/material/Button";
+import Button from "@mui/material/Button";
 
 export default function Home() {
   return (
@@ -19,20 +19,19 @@ export default function Home() {
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
               src/app/page.tsx
             </code>
-            .
           </li>
           <li className="tracking-[-.01em]">
             Save and see your changes instantly.
           </li>
           <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
+          <Button variant="contained">Contained</Button>
+          <Button variant="outlined">Outlined</Button>
         </ol>
 
 
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-    
+
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"

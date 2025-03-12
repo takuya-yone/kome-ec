@@ -28,8 +28,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-         <AppRouterCacheProvider>
-        {children}
+        <AppRouterCacheProvider>
+          {children}
         </AppRouterCacheProvider>
       </body>
     </html>
