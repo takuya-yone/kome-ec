@@ -23,9 +23,9 @@ export default function Home() {
           <li className="tracking-[-.01em]">
             Save and see your changes instantly.
           </li>
-          <Button variant="text">Text</Button>
+          {/* <Button variant="text">Text</Button>
           <Button variant="contained">Contained</Button>
-          <Button variant="outlined">Outlined</Button>
+          <Button variant="outlined">Outlined</Button> */}
         </ol>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
