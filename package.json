@@ -14,11 +14,11 @@
 		"@emotion/cache": "^11.14.0",
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
-		"@mui/material": "^6.4.8",
-		"@mui/material-nextjs": "^6.4.3",
-		"next": "15.2.3",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
+		"@mui/material": "^7.0.1",
+		"@mui/material-nextjs": "^7.0.0",
+		"next": "15.2.4",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
 		"serve": "^14.2.4"
 	},
 	"devDependencies": {
@@ -30,5 +30,5 @@
 		"tailwindcss": "^4",
 		"typescript": "^5"
 	},
-	"packageManager": "yarn@4.7.0"
+	"packageManager": "yarn@4.8.1"
 }
