@@ -3,11 +3,12 @@ import { CheckoutForm } from "@/app/components/CheckoutForm";
 import { Button, Typography } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { formatCurrencyString } from "use-shopping-cart";
 import { getProducts } from "./actions/products";
 import type { ProductWithPricesForDisplay } from "./class/ProductWithPrices";
 
 export default function Home() {
-  const [products, setProducts] = useState<ProductWithPricesForDisplay[]>();
+  const [products, setProducts] = useState<ProductWithPricesForDisplay[]>([]);
 
   useEffect(() => {
     getProducts().then((data) => {
@@ -25,7 +26,23 @@ export default function Home() {
             </Typography>
           </div>
 
-          <div className="border-amber-200 border-8">
+          {products.length > 0 &&
+            products.map((product) => (
+              <div key={product.id} className="p-4">
+                <div className="p-4 border-4">
+                  <img alt={product.name} src={product.images[0]} width={300} />
+                  {product.name} (
+                  {formatCurrencyString({
+                    value: product.primaryPrice.unit_amount ?? 0,
+                    currency: "JPY",
+                  })}
+                  ) <br />
+                  <Button>Add 1 to Cart</Button>
+                </div>
+              </div>
+            ))}
+
+          <div>
             <CheckoutForm />
           </div>
 

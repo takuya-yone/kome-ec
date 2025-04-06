@@ -22,7 +22,8 @@
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"serve": "^14.2.4",
-		"stripe": "^18.0.0"
+		"stripe": "^18.0.0",
+		"use-shopping-cart": "^3.2.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
