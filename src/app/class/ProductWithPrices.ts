@@ -1,7 +1,17 @@
-import { stripe } from "@/app/utils/stripe-server";
 import type Stripe from "stripe";
 
-export class ProductWithPricesForDisp {
+export type ProductWithPricesForDisplay = {
+  id: string;
+  name: string;
+  description: string | null;
+  images: Array<string>;
+  primaryPrice: {
+    currency: string;
+    unit_amount: number | null;
+  };
+};
+
+export class ProductWithPrices {
   product: Stripe.Product;
   prices: Array<Stripe.Price>;
   primaryPrice?: Stripe.Price;
@@ -14,7 +24,7 @@ export class ProductWithPricesForDisp {
     );
   }
 
-  toJSON() {
+  toJSON(): ProductWithPricesForDisplay {
     if (!this.primaryPrice) {
       throw new Error("Primary price not found");
     }
@@ -35,26 +45,4 @@ export class ProductWithPricesForDisp {
       // })),
     };
   }
-}
-
-export async function GET(request: Request) {
-  const products = await stripe.products.list();
-  const productWithPricesForDispList = [];
-  for await (const product of products.data) {
-    const prices = await stripe.prices.list({
-      product: product.id,
-    });
-
-    productWithPricesForDispList.push(
-      new ProductWithPricesForDisp(product, prices.data).toJSON(),
-    );
-  }
-
-  return new Response(
-    JSON.stringify({ products: productWithPricesForDispList }),
-    {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    },
-  );
 }

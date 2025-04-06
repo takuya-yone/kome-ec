@@ -1,20 +1,30 @@
 "use client";
 import { CheckoutForm } from "@/app/components/CheckoutForm";
-import { stripePromise } from "@/app/utils/stripe-client";
 import { Button, Typography } from "@mui/material";
-import { Elements } from "@stripe/react-stripe-js";
-import {
-  EmbeddedCheckout,
-  EmbeddedCheckoutProvider,
-} from "@stripe/react-stripe-js";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { getProducts } from "./actions/products";
+import type { ProductWithPricesForDisplay } from "./class/ProductWithPrices";
 
 export default function Home() {
+  const [products, setProducts] = useState<ProductWithPricesForDisplay[]>();
+
+  useEffect(() => {
+    getProducts().then((data) => {
+      setProducts(data);
+    });
+  }, []);
+
   return (
     <>
       <div className="p-20">
         <main className="">
+          <div className="py-10">
+            <Typography className="bg-gray-100 overflow-auto" variant="body1">
+              {JSON.stringify(products, null, 2)}
+            </Typography>
+          </div>
+
           <div className="border-amber-200 border-8">
             <CheckoutForm />
           </div>
