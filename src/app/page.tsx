@@ -1,7 +1,25 @@
+"use client";
+import { CheckoutForm } from "@/app/components/CheckoutForm";
+import { stripePromise } from "@/app/utils/stripe-client";
 import { Button, Typography } from "@mui/material";
+import { Elements } from "@stripe/react-stripe-js";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  const hasAPICalledRef = useRef(false);
+  const [piClientSecret, setPiClientSecret] = useState("");
+
+  useEffect(() => {
+    if (hasAPICalledRef.current) return;
+    hasAPICalledRef.current = true;
+    fetch("/api/stripe/payment-intent", {
+      method: "post",
+    })
+      .then((data) => data.json())
+      .then((response) => setPiClientSecret(response.clientSecret));
+  }, []);
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -25,6 +43,17 @@ export default function Home() {
           <li>
             <Typography>Save and see your changes instantly.</Typography>
           </li>
+
+          {piClientSecret && (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                clientSecret: piClientSecret,
+              }}
+            >
+              <CheckoutForm />
+            </Elements>
+          )}
 
           <Button variant="text">
             <p>あいうえお</p>
