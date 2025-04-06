@@ -12,10 +12,19 @@ export async function getProducts() {
     });
 
     productWithPricesForDispList.push(
-      new ProductWithPrices(product, prices.data).toJSON(),
+      new ProductWithPrices(product, prices.data, 0).toJSON(),
     );
   }
   return productWithPricesForDispList;
+}
+
+export async function getLineItem(id: string, quantity: number) {
+  const product = await stripe.products.retrieve(id);
+  const prices = await stripe.prices.list({
+    product: product.id,
+  });
+
+  return new ProductWithPrices(product, prices.data, quantity).toLineItem();
 }
 
 export async function getLineItems() {
@@ -26,7 +35,7 @@ export async function getLineItems() {
       product: product.id,
     });
 
-    lineItems.push(new ProductWithPrices(product, prices.data).toLineItem());
+    lineItems.push(new ProductWithPrices(product, prices.data, 0).toLineItem());
   }
   return lineItems;
 }

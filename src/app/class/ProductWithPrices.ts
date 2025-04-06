@@ -14,12 +14,18 @@ export type ProductWithPricesForDisplay = {
 
 export class ProductWithPrices {
   product: Stripe.Product;
+  quantity: number;
   prices: Array<Stripe.Price>;
   primaryPrice?: Stripe.Price;
 
-  constructor(product: Stripe.Product, prices: Array<Stripe.Price>) {
+  constructor(
+    product: Stripe.Product,
+    prices: Array<Stripe.Price>,
+    quantity: number,
+  ) {
     this.product = product;
     this.prices = prices;
+    this.quantity = quantity;
     this.primaryPrice = prices.find(
       (price) => price.id === product.default_price,
     );
@@ -35,7 +41,7 @@ export class ProductWithPrices {
         },
         unit_amount: this.primaryPrice?.unit_amount ?? 0,
       },
-      quantity: 1,
+      quantity: this.quantity,
     };
   }
 

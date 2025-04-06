@@ -1,6 +1,8 @@
 "use client";
+import { useForm } from "react-hook-form";
+
 import { CheckoutForm } from "@/app/components/CheckoutForm";
-import { Button, Typography } from "@mui/material";
+import { Button, MenuItem, Select, Typography } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { formatCurrencyString } from "use-shopping-cart";
@@ -8,8 +10,19 @@ import { getProducts } from "./actions/products";
 import type { ProductWithPricesForDisplay } from "./class/ProductWithPrices";
 
 export default function Home() {
-  const [products, setProducts] = useState<ProductWithPricesForDisplay[]>([]);
+  const { register, handleSubmit } = useForm();
+  const [clientSecret, setClientSecret] = useState();
+  const onSubmit = (data: { [key: string]: string }) => {
+    setClientSecret(undefined);
+    fetch("/api/stripe/checkout-session", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  };
 
+  const [products, setProducts] = useState<ProductWithPricesForDisplay[]>([]);
   useEffect(() => {
     getProducts().then((data) => {
       setProducts(data);
@@ -26,24 +39,43 @@ export default function Home() {
             </Typography>
           </div>
 
-          {products.length > 0 &&
-            products.map((product) => (
-              <div key={product.id} className="p-4">
-                <div className="p-4 border-4">
-                  <img alt={product.name} src={product.images[0]} width={300} />
-                  {product.name} (
-                  {formatCurrencyString({
-                    value: product.primaryPrice.unit_amount ?? 0,
-                    currency: "JPY",
-                  })}
-                  ) <br />
-                  <Button>Add 1 to Cart</Button>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {products.length > 0 &&
+              products.map((product) => (
+                <div key={product.id} className="p-4">
+                  <div className="p-4 border-4">
+                    <img
+                      alt={product.name}
+                      src={product.images[0]}
+                      width={300}
+                    />
+                    {product.name} (
+                    {formatCurrencyString({
+                      value: product.primaryPrice.unit_amount ?? 0,
+                      currency: "JPY",
+                    })}
+                    ) <br />
+                    <select {...register(product.id)} defaultValue={0}>
+                      <option value={0}>0</option>
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                    </select>
+                  </div>
+                </div>
+              ))}
+            <Button type="submit" variant="contained">
+              Check Out
+            </Button>
+          </form>
+          <div>
+            {clientSecret && (
+              <div className="p-6">
+                <div className="border-amber-200 border-8">
+                  <CheckoutForm clientSecret={clientSecret} />
                 </div>
               </div>
-            ))}
-
-          <div>
-            <CheckoutForm />
+            )}
           </div>
 
           <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left">

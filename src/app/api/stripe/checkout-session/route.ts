@@ -1,34 +1,22 @@
-import { getLineItems } from "@/app/actions/products";
+import { getLineItem, getLineItems } from "@/app/actions/products";
 import { stripe } from "@/app/utils/stripe-server";
 import { Stripe } from "@stripe/stripe-js";
 
 export async function POST(request: Request) {
-  // const session = await stripe.checkout.sessions.create({
-  //   billing_address_collection: "required",
-  //   shipping_address_collection: {
-  //     allowed_countries: ["JP"],
-  //   },
-  //   line_items: [
-  //     {
-  //       price_data: {
-  //         currency: "jpy",
-  //         product_data: {
-  //           name: "T-shirt",
-  //           images: ["https://example.com/t-shirt.png"],
-  //         },
-  //         unit_amount: 1099,
-  //       },
-  //       quantity: 1,
-  //     },
-  //   ],
-  //   automatic_tax: {
-  //     enabled: true,
-  //   },
-  //   mode: "payment",
-  //   success_url: "https://example.com/success",
-  // });
+  const data = await request.json();
 
-  const products = await getLineItems();
+  const keys = Object.keys(data);
+
+  const products = [];
+
+  for (const key of keys) {
+    const quantity = Number(data[key]);
+    if (quantity > 0) {
+      products.push(await getLineItem(key, Number(data[key])));
+    }
+  }
+
+  console.log(products);
 
   const session = await stripe.checkout.sessions.create({
     ui_mode: "embedded",
