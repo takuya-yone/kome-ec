@@ -16,8 +16,6 @@ export async function POST(request: Request) {
     }
   }
 
-  console.log(products);
-
   const session = await stripe.checkout.sessions.create({
     ui_mode: "embedded",
     billing_address_collection: "required",
