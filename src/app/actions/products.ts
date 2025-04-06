@@ -17,3 +17,16 @@ export async function getProducts() {
   }
   return productWithPricesForDispList;
 }
+
+export async function getLineItems() {
+  const products = await stripe.products.list();
+  const lineItems = [];
+  for await (const product of products.data) {
+    const prices = await stripe.prices.list({
+      product: product.id,
+    });
+
+    lineItems.push(new ProductWithPrices(product, prices.data).toLineItem());
+  }
+  return lineItems;
+}

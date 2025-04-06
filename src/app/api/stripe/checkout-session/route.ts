@@ -1,4 +1,6 @@
+import { getLineItems } from "@/app/actions/products";
 import { stripe } from "@/app/utils/stripe-server";
+import { Stripe } from "@stripe/stripe-js";
 
 export async function POST(request: Request) {
   // const session = await stripe.checkout.sessions.create({
@@ -26,28 +28,15 @@ export async function POST(request: Request) {
   //   success_url: "https://example.com/success",
   // });
 
+  const products = await getLineItems();
+
   const session = await stripe.checkout.sessions.create({
     ui_mode: "embedded",
     billing_address_collection: "required",
     shipping_address_collection: {
       allowed_countries: ["JP"],
     },
-    line_items: [
-      {
-        price_data: {
-          currency: "jpy",
-          product_data: {
-            name: "KOME",
-            images: [
-              "https://img.dinos.co.jp/kp/defaultMall/images/goods/KHD/2024/etc/KH7412c1.jpg?Mode=l11",
-              "https://img.dinos.co.jp/kp/defaultMall/images/goods/KHD/2024/etc/KH7408c1.jpg?Mode=l11",
-            ],
-          },
-          unit_amount: 1099,
-        },
-        quantity: 1,
-      },
-    ],
+    line_items: products,
     mode: "payment",
     return_url: "http://localhost:3000/success",
   });

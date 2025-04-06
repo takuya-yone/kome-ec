@@ -1,3 +1,4 @@
+import type { LineItem } from "@stripe/stripe-js";
 import type Stripe from "stripe";
 
 export type ProductWithPricesForDisplay = {
@@ -22,6 +23,20 @@ export class ProductWithPrices {
     this.primaryPrice = prices.find(
       (price) => price.id === product.default_price,
     );
+  }
+
+  toLineItem(): Stripe.Checkout.SessionCreateParams.LineItem {
+    return {
+      price_data: {
+        currency: "jpy",
+        product_data: {
+          name: this.product.name,
+          images: this.product.images,
+        },
+        unit_amount: this.primaryPrice?.unit_amount ?? 0,
+      },
+      quantity: 1,
+    };
   }
 
   toJSON(): ProductWithPricesForDisplay {
