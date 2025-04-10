@@ -14,11 +14,11 @@
 		"@emotion/cache": "^11.14.0",
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
-		"@mui/material": "^7.0.1",
-		"@mui/material-nextjs": "^7.0.0",
+		"@mui/material": "^7.0.2",
+		"@mui/material-nextjs": "^7.0.2",
 		"@stripe/react-stripe-js": "^3.6.0",
 		"@stripe/stripe-js": "^7.0.0",
-		"next": "15.2.4",
+		"next": "15.3.0",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"react-hook-form": "^7.55.0",
@@ -35,5 +35,5 @@
 		"tailwindcss": "^4",
 		"typescript": "^5"
 	},
-	"packageManager": "yarn@4.8.1"
+	"packageManager": "yarn@4.9.0"
 }
